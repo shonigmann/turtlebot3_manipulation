@@ -21,7 +21,7 @@ find_package(urdf REQUIRED)
 ################################################################################
 # Install
 ################################################################################
-install(DIRECTORY models urdf
+install(DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

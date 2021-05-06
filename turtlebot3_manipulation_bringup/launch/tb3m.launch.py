@@ -26,15 +26,18 @@ from launch.actions import RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import ThisLaunchFileDir
+from launch.substitutions import Command
 from launch_ros.actions import Node
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
     TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
     omx_package_name = 'open_manipulator_x_robot'
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
     rviz_config = os.path.join(get_package_share_directory(
-        omx_package_name), "launch", package_name + ".rviz")  # TODO
+        omx_package_name), "launch", omx_package_name + ".rviz")  # TODO
 
     # TODO: rework to use a single URDF source
     robot_description = os.path.join(get_package_share_directory(omx_package_name),
@@ -87,13 +90,12 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[
-            {'use_sim_time': launch_configs['use_sim_time'][2]},
+            {'use_sim_time': use_sim_time},
             {'robot_description': Command(['xacro ',
                                            robot_description,
                                            ' gazebo:=False'])}
         ],
-        remappings=remappings,
-        arguments=['--log-level', launch_configs['log_level'][2]]
+        remappings=remappings
     )
 
     hlds_launch = IncludeLaunchDescription(
@@ -105,7 +107,7 @@ def generate_launch_description():
         package='turtlebot3_node',
         executable='turtlebot3_ros',
         parameters=[tb3_param_dir],
-        arguments=['-i', open_cr_usb_port],
+        arguments=['-i', ocr_usb_port],
         output='screen')
 
     load_controller_manager = Node(
@@ -113,7 +115,7 @@ def generate_launch_description():
         executable="ros2_control_node",
         parameters=[
             {"robot_description": Command(['xacro ', robot_description,
-                                           ' gazebo:=False ' + xacro_args])}, controller_config],
+                                           ' gazebo:=False '])}, controller_config],
         output={
             "stdout": "screen",
             "stderr": "screen",
@@ -165,7 +167,6 @@ def generate_launch_description():
         # omx_usb_port_arg,
         tb3_param_arg,
         tb3_state_publisher,  # TODO on this
-        tb3_node,
         hlds_launch,
         tb3_node,
         load_controller_manager,
