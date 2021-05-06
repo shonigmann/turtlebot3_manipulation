@@ -21,7 +21,7 @@ find_package(urdf REQUIRED)
 ################################################################################
 # Install
 ################################################################################
-install(DIRECTORY launch rviz urdf
+install(DIRECTORY models urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

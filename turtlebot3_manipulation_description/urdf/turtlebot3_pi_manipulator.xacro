@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<robot name="turtlebot3_manipulator" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- For "terrain" simulations environments -->
+  <xacro:arg name="offroad_turtlebot" default="False"/>
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find open_manipulator_x_description)/urdf/materials.xacro" />
+
+  <!--  TURTLEBOT3 WAFFLE PI  -->
+  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/urdf/turtlebot3_pi.xacro"/>
+
+  <!--  if gazebo=True, enable SDF specific tags  -->
+  <xacro:arg name="include_manipulator" default="True"/>
+  <xacro:if value="$(arg include_manipulator)">
+    <!-- OPEN MANIPULATOR X -->
+    <xacro:include filename="$(find open_manipulator_x_description)/urdf/open_manipulator_x.urdf.xacro"/>
+    <xacro:include filename="$(find open_manipulator_x_description)/urdf/open_manipulator_x.transmission.xacro"/>
+    <xacro:include filename="$(find open_manipulator_x_description)/urdf/open_manipulator_x.gazebo.xacro"/>
+    <xacro:include filename="$(find open_manipulator_x_description)/urdf/open_manipulator_x.controller.xacro"/>
+
+    <!-- TURTLEBOT-OPEN MANIPULATOR JOINT  -->
+    <joint name="base_to_link1" type="fixed">
+      <origin xyz="-0.092 0.0 0.091" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link1"/>
+    </joint>
+  </xacro:if>
+</robot>
