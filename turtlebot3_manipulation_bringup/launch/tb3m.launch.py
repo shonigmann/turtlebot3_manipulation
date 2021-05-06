@@ -34,7 +34,7 @@ def generate_launch_description():
     omx_package_name = 'open_manipulator_x_robot'
 
     rviz_config = os.path.join(get_package_share_directory(
-        package_name), "launch", package_name + ".rviz")  # TODO
+        omx_package_name), "launch", package_name + ".rviz")  # TODO
 
     # TODO: rework to use a single URDF source
     robot_description = os.path.join(get_package_share_directory(omx_package_name),
