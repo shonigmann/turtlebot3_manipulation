@@ -8,7 +8,7 @@
   <xacro:include filename="$(find open_manipulator_x_description)/urdf/materials.xacro" />
 
   <!--  TURTLEBOT3 WAFFLE PI  -->
-  <xacro:include filename="$(find turtlebot3_manipulation_gazebo)/urdf/turtlebot3_pi.xacro"/>
+  <xacro:include filename="$(find turtlebot3_manipulation_description)/urdf/turtlebot3_pi.xacro"/>
 
   <!--  if gazebo=True, enable SDF specific tags  -->
   <xacro:arg name="include_manipulator" default="True"/>
