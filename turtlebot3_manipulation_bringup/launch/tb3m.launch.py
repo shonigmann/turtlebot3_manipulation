@@ -33,22 +33,22 @@ from launch.event_handlers import OnProcessExit
 
 def generate_launch_description():
     TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
-    omx_package_name = 'open_manipulator_x_robot'
+    tbm_package_name = 'turtlebot3_manipulation_description'
+    dynamixel_control_package = 'open_manipulator_x_robot'
     remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
     rviz_config = os.path.join(get_package_share_directory(
-        omx_package_name), "launch", omx_package_name + ".rviz")  # TODO
+        tbm_package_name), "launch", dynamixel_control_package + ".rviz")  # TODO
 
-    # TODO: rework to use a single URDF source
-    robot_description = os.path.join(get_package_share_directory(omx_package_name),
-                                     "urdf", omx_package_name + ".urdf.xacro")
+    robot_description = os.path.join(get_package_share_directory(tbm_package_name),
+                                     "urdf", "turtlebot3_pi_manipulator.xacro")
 
     ocr_usb_port = LaunchConfiguration('ocr_usb_port', default='/dev/ttyACM0')
     # omx_usb_port = LaunchConfiguration('omx_usb_port', default='/dev/ttyUSB1')
 
     controller_config = os.path.join(
         get_package_share_directory(
-            omx_package_name), "controllers", "controllers.yaml"
+            dynamixel_control_package), "controllers", "controllers.yaml"
     )
 
     tb3_param_dir = LaunchConfiguration(
